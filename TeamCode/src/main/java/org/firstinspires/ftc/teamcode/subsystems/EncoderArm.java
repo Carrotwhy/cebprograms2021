@@ -51,6 +51,20 @@ public class EncoderArm implements Subsystem {
         return Math.abs(armPID.getLastError()) <= ARM_ACCEPTABLE_ERROR_MARGIN;
     }
 
+    public enum POS {INIT, SWEEP, DUMP};
+
+    public void setPosition(POS pos){
+        if (pos == POS.INIT) {
+            setTargetAngle(0);
+        }
+        else if (pos == POS.SWEEP) {
+            setTargetAngle(-150.0/180*Math.PI);
+        }
+        else if (pos == POS.DUMP) {
+            setTargetAngle(10.0/180.0*Math.PI);
+        }
+    }
+
     @Override
     public void update(TelemetryPacket packet) {
         double armPower = armPID.update(getArmAngle());

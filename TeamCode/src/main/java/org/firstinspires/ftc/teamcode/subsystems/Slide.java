@@ -11,7 +11,7 @@ public class Slide implements Subsystem {
     //Hardware: 1 motor, 1 encoder
     private DcMotorEx slideMotor;
     private double slidePower= 0.2;
-    public static final double  TICKS_PER_REV = 357.7;
+    public static final double  TICKS_PER_REV = 537.7;
     public static final double PULLEY_DIAMETER = 38 /25.4;
     public int level = 0;
     public static double SLIDE_LENGTH = 15.0;
@@ -49,10 +49,13 @@ public class Slide implements Subsystem {
 
     public void goUp () {
 
-        if (level < 3) {
+        if (!slideMotor.isBusy() && (level < 3)) {
 
             level = level + 1;
             targetPosition = inchToTicks (INCHES_PER_LEVEL * level);
+            //slideMotor.setTargetPosition(targetPosition);
+            //slideMotor.setPower(slidePower);
+            //slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
             // set encode to new position
@@ -60,14 +63,23 @@ public class Slide implements Subsystem {
     }
 
     public void goDown() {
+        if (!slideMotor.isBusy() && (level > 0)) {
 
+            level = level - 1;
+            targetPosition = inchToTicks(INCHES_PER_LEVEL * level);
+            //slideMotor.setTargetPosition(targetPosition);
+            //slideMotor.setPower(slidePower);
+            //slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            // set encode to new position
+        }
     }
-
     @Override
     public void update(TelemetryPacket packet) {
-        if (needsPowerUpdate) {
+        //if (needsPowerUpdate) {
             slideMotor.setPower(slidePower);
-        }
+        //}
         slideMotor.setTargetPosition(targetPosition);
         slideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // debug only,  remove it on release

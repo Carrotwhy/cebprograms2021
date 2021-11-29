@@ -39,9 +39,10 @@ public class I2cScale extends LinearOpMode {
             //telemetry.addData("PF flag", scale.peelFlag());
             //= (int)scale.getValue();
             //long average = scale.average(10);
-            long raw_value= scale.getValue();
-            telemetry.addData(String.format("get_value hex 0x%08X, decimal: ", raw_value), raw_value);
-            telemetry.addLine("");
+
+            //long raw_value= scale.getValue();
+            //telemetry.addData(String.format("get_value hex 0x%08X, decimal: ", raw_value), raw_value);
+            //telemetry.addLine("");
 
             if (gamepad1.a)
             {
